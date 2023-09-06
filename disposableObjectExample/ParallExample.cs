@@ -84,6 +84,21 @@ namespace disposableObjectExample
             return total;
         }
 
+        public void CallMethodsUsingParallel()
+        {
+            Parallel.Invoke(DoTask);
+            Console.ReadKey();
+        }
+
+        static void DoTask()
+        {
+            long total = 0;
+            for(long i = 1000000; i > 0;i--)
+            {
+                total += 1;
+            }
+        }
+
         public void UseParallelToSeeTheDifference()
         {
             DateTime StartDateTime = DateTime.Now;

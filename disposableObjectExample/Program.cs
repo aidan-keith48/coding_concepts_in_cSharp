@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +25,8 @@ namespace disposableObjectExample
             linqClass link = new linqClass();
             UsingProcesses process = new UsingProcesses();
             ParallExample parallelExample= new ParallExample();
+            FileReading fr = new FileReading();
+            Employee emp = new Employee();
 
 
 
@@ -60,14 +64,38 @@ namespace disposableObjectExample
             //parallelExample.ParallelLoop();
             // Console.WriteLine("\n\n");
             // parallelExample.CheckEfficency();
-            parallelExample.UseTimerToSeeTheDifferenceForLoop();
-            Console.WriteLine("\n\n");
-            parallelExample.UseParallelToSeeTheDifference();
-            Console.WriteLine("\n\n");
-           
+            // parallelExample.UseTimerToSeeTheDifferenceForLoop();
+            // Console.WriteLine("\n\n");
+            //parallelExample.UseParallelToSeeTheDifference();
+            //Console.WriteLine("\n\n");
+            //parallelExample.CallMethodsUsingParallel();
+            //fr.writerMethod();
+            //fr.readerMethod();
+            // fr.getFirstLetter();
+            //fr.BinaryFiles();
 
 
 
+            emp.empID = 1;
+            emp.empName = "Aidan Keith Naidoo";
+
+            //Adding code for sterialize
+            Stream stream = File.Open("EmployeeInfo.osl", FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+
+            Console.WriteLine("Writing Employee Informaton");
+            bf.Serialize(stream, emp);
+            stream.Close();
+
+            //Clear up further usage
+            emp = new Employee();
+
+            stream = File.Open("EmployeeInfo.osl", FileMode.Open);
+            emp = (Employee)bf.Deserialize(stream);
+            stream.Close();
+
+            Console.WriteLine("Employee id: {0}", emp.empID.ToString());
+            Console.WriteLine("Employee name: {0} ", emp.empName);
 
 
 
